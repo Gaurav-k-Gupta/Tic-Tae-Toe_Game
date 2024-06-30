@@ -4,12 +4,14 @@ let msgCont = document.querySelector(".msg-cont");
 let turnX = true; 
 let newBtn = document.querySelector("#new_btn");
 let newButton = document.querySelector(".new");
+let count = 0;
 
 let turnMsg = document.querySelector("h2");
 
 turnMsg.classList.remove("hide");
 
 const newGame=()=>{
+    count=0;
     turnX = true;
     enableBtns();
     msgCont.classList.add("hide");
@@ -33,6 +35,7 @@ const winPermutations = [
     [2,4,6]
 ];
 
+
 boxes.forEach((box)=>{
     box.addEventListener("click",()=>{
         if(turnX){
@@ -47,6 +50,10 @@ boxes.forEach((box)=>{
         }
         box.disabled = true;
         winCheck();
+        count++;
+        if(count===9){
+            draw();
+        }
     })
     })
 
@@ -77,11 +84,12 @@ boxes.forEach((box)=>{
                     {
                         if(val1===val2 && val2===val3)
                         {
-                            msgCont.innerText=`Congrats, Winner is ${val1}`;
+                            msgCont.innerText=`Congrats, Winner is ${val1}!`;
                             msgCont.classList.remove("hide");
                             newButton.classList.remove("hide");
                             turnMsg.classList.add("hide");
                             disableBtns();
+                            count=0;
                         }
                     }
             }
@@ -89,3 +97,11 @@ boxes.forEach((box)=>{
 
 newBtn.addEventListener("click",newGame);
 reset.addEventListener("click",newGame);
+
+const draw = ()=>{
+        msgCont.innerText=`The Game is draw!`;
+        msgCont.classList.remove("hide");
+        newButton.classList.remove("hide");
+        turnMsg.classList.add("hide");
+        disableBtns();
+}
